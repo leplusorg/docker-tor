@@ -11,4 +11,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: docker build tor --file Dockerfile --tag my-image-name:$(date +%s)
+      working-directory: tor
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
