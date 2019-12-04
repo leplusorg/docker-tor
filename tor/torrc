@@ -1,2 +1,2 @@
 Log notice stdout
-SocksPort 0.0.0.0:9150
+SocksPort 127.0.0.1:9150
