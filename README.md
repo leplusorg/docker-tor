@@ -3,7 +3,7 @@
 Run TOR conveniently from a docker container.
 
 ```
-docker run -p 9050:9050 thomasleplus/tor
+docker run --rm -p 9050:9050 thomasleplus/tor
 ```
 
 Once the docker container has finished starting, you can test it with the following command:
