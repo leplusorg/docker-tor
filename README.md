@@ -2,6 +2,11 @@
 
 Run TOR conveniently from a docker container.
 
+![Docker Stars](https://img.shields.io/docker/stars/thomasleplus/tor.svg)
+![Docker Pulls](https://img.shields.io/docker/pulls/thomasleplus/tor.svg)
+![Docker Automated](https://img.shields.io/docker/automated/thomasleplus/tor.svg)
+![Docker Build](https://img.shields.io/docker/build/thomasleplus/tor.svg)
+
 ```
 docker run --rm -p 9050:9050 thomasleplus/tor
 ```
