@@ -2,7 +2,7 @@
 
 Run TOR conveniently from a docker container.
 
-![GitHub Build](https://img.shields.io/github/workflow/status/thomasleplus/docker-tor/Docker%20Image%20CI)
+![Docker Build](https://github.com/thomasleplus/docker-tor/workflows/Docker/badge.svg)
 ![Docker Stars](https://img.shields.io/docker/stars/thomasleplus/tor)
 ![Docker Pulls](https://img.shields.io/docker/pulls/thomasleplus/tor)
 ![Docker Automated](https://img.shields.io/docker/cloud/automated/thomasleplus/tor)
