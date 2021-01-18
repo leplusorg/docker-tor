@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2.3.4
+    - uses: actions/checkout@v2
     - name: Build the Docker image
       working-directory: tor
       run: docker build .
