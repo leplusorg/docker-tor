@@ -1,4 +1,4 @@
-# docker-tor
+# TOR
 
 Run TOR conveniently from a docker container.
 
