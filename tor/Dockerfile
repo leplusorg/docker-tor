@@ -1,4 +1,4 @@
-FROM alpine:3.14.3
+FROM alpine:3.15.0
 
 RUN apk --update --no-cache add tor \
     && rm -rf /var/cache/apk/*
