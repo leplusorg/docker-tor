@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Pull the latest Docker image
-      run: docker pull thomasleplus/tor
+      run: docker pull leplusorg/tor
