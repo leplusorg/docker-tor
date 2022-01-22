@@ -9,13 +9,13 @@ Run TOR conveniently from a docker container.
 [![Docker Build](https://img.shields.io/docker/cloud/build/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Version](https://img.shields.io/docker/v/leplusorg/tor?sort=semver)](https://hub.docker.com/r/leplusorg/tor)
 
-```
+```bash
 docker run --rm -p 9050:9050 leplusorg/tor
 ```
 
 Once the docker container has finished starting, you can test it with the following command:
 
-```
+```bash
 curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/
 ```
 
