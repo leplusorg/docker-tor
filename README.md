@@ -21,4 +21,4 @@ curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torp
 
 ## Request configuration change
 
-Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=leplusorg&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration.
+Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=thomasleplus&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration.
