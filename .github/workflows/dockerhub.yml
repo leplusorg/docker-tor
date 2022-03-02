@@ -12,6 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Pull the latest Docker image
       run: docker pull leplusorg/tor
