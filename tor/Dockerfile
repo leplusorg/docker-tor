@@ -6,6 +6,6 @@ RUN apk --update --no-cache add tor \
 
 COPY torrc /etc/torrc
 
-EXPOSE 9150
+EXPOSE 9050
 
 ENTRYPOINT ["tor", "-f", "/etc/torrc"]
