@@ -16,7 +16,7 @@ docker run --rm -p 9050:9050 leplusorg/tor
 Once the docker container has finished starting, you can test it with the following command:
 
 ```bash
-curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/
+curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/api/ip
 ```
 
 ## Request configuration change
