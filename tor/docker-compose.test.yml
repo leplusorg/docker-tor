@@ -1,3 +1,4 @@
+---
 version: "3.8"
  
 services:
@@ -6,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile-test
     links:
-    - tor
+      - tor
   tor:
     build:
       context: .
