@@ -4,5 +4,10 @@ services:
   sut:
     build:
       context: .
+      dockerfile: Dockerfile-test
+    links:
+    - tor
+  tor:
+    build:
+      context: .
       dockerfile: Dockerfile
-    command: curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/api/ip
