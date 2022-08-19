@@ -8,4 +8,4 @@ COPY torrc /etc/torrc
 
 EXPOSE 9050
 
-ENTRYPOINT ["tor", "-f", "/etc/torrc"]
+ENTRYPOINT ["/usr/bin/tor", "-f", "/etc/torrc"]
