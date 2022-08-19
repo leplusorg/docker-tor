@@ -1,5 +1,7 @@
+# hadolint ignore=DL3006
 FROM alpine
 
+# hadolint ignore=DL3018
 RUN apk update \
  && apk add curl \
  && rm -rf /var/cache/apk/*
