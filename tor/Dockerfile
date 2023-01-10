@@ -1,4 +1,4 @@
-FROM alpine:3.17.0
+FROM alpine:3.17.1
 
 # hadolint ignore=DL3018
 RUN apk --update --no-cache add tor \
