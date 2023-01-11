@@ -17,4 +17,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build the Docker image
         working-directory: tor
-        run: docker build .
+        run: docker build . --pull
+      - name: Test the Docker image
+        working-directory: tor
+        run: docker compose -f docker-compose.test.yml run sut
