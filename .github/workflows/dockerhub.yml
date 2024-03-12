@@ -11,9 +11,12 @@ on:
 permissions: {}
 
 jobs:
-  build:
+  pull:
+    strategy:
+      matrix:
+        platform: ['linux/amd64', 'linux/arm64']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Pull the latest Docker image
-        run: docker pull leplusorg/tor
+      - name: Pull the latest ${{ matrix.platform }} image
+        run: docker pull --platform ${{ matrix.platform }} leplusorg/tor
