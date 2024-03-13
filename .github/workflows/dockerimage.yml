@@ -20,7 +20,7 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ${{ github.repository_owner }}/yaml
+          images: ${{ github.repository_owner }}/tor
           tags: |
             type=schedule
             type=ref,event=branch
