@@ -19,4 +19,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Pull the latest ${{ matrix.platform }} image
-        run: docker pull --platform ${{ matrix.platform }} leplusorg/tor
+        run: docker pull --platform ${{ matrix.platform }} ${{ github.repository_owner }}/tor

@@ -21,14 +21,27 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ${{ github.repository_owner }}/yaml
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
       - uses: docker/build-push-action@v5
         with:
           context: tor
           platforms: linux/amd64,linux/arm64
           pull: true
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           sbom: true
-          tags: leplusorg/tor:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       - name: Test the Docker image
         working-directory: tor
         run: docker compose -f docker-compose.test.yml run sut
