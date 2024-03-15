@@ -1,15 +1,10 @@
 ---
-name: Docker
+name: Docker Release
 
 on:
-  push:
-  pull_request:
-  schedule:
-    - cron: '0 0 * * 0'
+  release:
+    types: [published]
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   build:
@@ -42,25 +37,7 @@ jobs:
           context: ${{ env.IMAGE }}
           platforms: linux/amd64,linux/arm64
           pull: true
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           sbom: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Test the Docker image
-        working-directory: ${{ env.IMAGE }}
-        run: docker compose -f docker-compose.test.yml run sut
-      - name: Set RELEASE
-        if: github.event_name != 'pull_request'
-        run: |
-          # shellcheck disable=SC2086
-          RC="$(\grep ${IMAGE}/Dockerfile -e '^FROM' | sed -e 's/^.*://')"
-          if [[ "${RC}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && ! git show-ref --tags --verify --quiet "refs/tags/v${RC}" ; then
-            echo "RELEASE=${RC}" >> "${GITHUB_ENV}"
-          fi
-      - name: Trigger release
-        if: env.RELEASE == true
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          tag_name: v${{ env.RELEASE }}
