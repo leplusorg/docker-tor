@@ -42,7 +42,7 @@ jobs:
           context: ${{ env.IMAGE }}
           platforms: linux/amd64,linux/arm64
           pull: true
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.ref == 'refs/heads/main' }}
           sbom: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
