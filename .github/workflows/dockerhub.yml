@@ -19,6 +19,6 @@ jobs:
     steps:
       - name: Set IMAGE
         run: echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Pull the latest ${{ matrix.platform }} image
         run: docker pull --platform "${{ matrix.platform }}" "${GITHUB_REPOSITORY_OWNER}/${IMAGE}"
