@@ -9,8 +9,16 @@ Run TOR conveniently from a docker container.
 [![Docker Build](https://img.shields.io/docker/cloud/build/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Version](https://img.shields.io/docker/v/leplusorg/tor?sort=semver)](https://hub.docker.com/r/leplusorg/tor)
 
+The simplest way to launch a TOR proxy using this container is to use the following command:
+
 ```bash
 docker run --rm -p 9050:9050 leplusorg/tor
+```
+
+If you need to ovverride the default [torrc](tor/torrc) file, you can mount your version this way:
+
+```bash
+docker run --rm -p 9050:9050 -v /local/path/to/your/torrc:/etc/torrc leplusorg/tor
 ```
 
 Once the docker container has finished starting, you can test it with the following command:
