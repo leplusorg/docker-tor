@@ -36,7 +36,7 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
       - uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.1.0
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -53,7 +53,7 @@ jobs:
         working-directory: ${{ env.IMAGE }}
         run: docker compose -f docker-compose.test.yml run sut
       - name: Set RELEASE
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         run: |
           # shellcheck disable=SC2086
           RC="$(\grep ${IMAGE}/Dockerfile -e '^FROM' | \head -n 1 | \sed -e 's/^.*://')"
