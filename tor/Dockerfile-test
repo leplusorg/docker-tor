@@ -1,9 +1,23 @@
 # hadolint ignore=DL3006
 FROM alpine
 
+HEALTHCHECK NONE
+
+ENTRYPOINT []
+
 # hadolint ignore=DL3018
 RUN apk update \
  && apk add curl \
  && rm -rf /var/cache/apk/*
+
+ARG USER=default
+
+ENV HOME "/home/${USER}"
+
+RUN adduser -D "${USER}"
+
+USER "${USER}"
+
+WORKDIR "${HOME}"
 
 CMD ["/usr/bin/curl", "--socks5", "tor:9050", "--socks5-hostname", "tor:9050", "https://check.torproject.org/api/ip"]
