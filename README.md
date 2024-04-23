@@ -2,11 +2,10 @@
 
 Run TOR conveniently from a docker container.
 
+[![Dockerfile](https://img.shields.io/badge/GitHub-Dockerfile-blue)](https://github.com/leplusorg/docker-tor/blob/main/tor/Dockerfile)
 [![Docker Build](https://github.com/leplusorg/docker-tor/workflows/Docker/badge.svg)](https://github.com/leplusorg/docker-tor/actions?query=workflow:"Docker")
 [![Docker Stars](https://img.shields.io/docker/stars/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Pulls](https://img.shields.io/docker/pulls/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
-[![Docker Automated](https://img.shields.io/docker/cloud/automated/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
-[![Docker Build](https://img.shields.io/docker/cloud/build/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Version](https://img.shields.io/docker/v/leplusorg/tor?sort=semver)](https://hub.docker.com/r/leplusorg/tor)
 
 The simplest way to launch a TOR proxy using this container is to use the following command:
