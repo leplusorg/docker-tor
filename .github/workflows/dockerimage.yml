@@ -65,9 +65,13 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: `v${VERSION}`,
+            }).then(function(result) {
+              core.info(`Release v${VERSION} found`)
+              return result.name
             }).catch(function(error) {
               if (error.status === 404) {
                 core.info(`Release v${VERSION} not found`)
+                return
               } else {
                 throw error
               }
