@@ -28,4 +28,4 @@ USER "${USER_NAME}"
 
 WORKDIR "${HOME}"
 
-CMD ["/usr/bin/curl", "--socks5", "tor:9050", "--socks5-hostname", "tor:9050", "https://check.torproject.org/api/ip"]
+CMD ["/usr/bin/curl", "-i", "-s", "-S", "-f", "--socks5", "tor:9050", "--socks5-hostname", "tor:9050", "https://check.torproject.org/api/ip"]
