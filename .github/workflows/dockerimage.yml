@@ -67,8 +67,9 @@ jobs:
               repo: context.repo.repo,
               tag: `v${VERSION}`,
             }).then(function(result) {
-              core.info(`Release ${result.data.name} found`)
-              return result.data.name
+              core.info(JSON.stringify(result))
+              core.info(`Release ${result.data.tag_name} found`)
+              return result.data.tag_name
             }).catch(function(error) {
               if (error.status === 404) {
                 core.info(`Release v${VERSION} not found`)
