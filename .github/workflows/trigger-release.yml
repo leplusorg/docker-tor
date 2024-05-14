@@ -38,7 +38,7 @@ jobs:
               repo: context.repo.repo,
               tag: `v${VERSION}`,
             }).then(function(result) {
-              core.info(JSON.stringify(result))
+              core.debug(JSON.stringify(result))
               core.info(`Release ${result.data.tag_name} found`)
               return result.data.tag_name
             }).catch(function(error) {
