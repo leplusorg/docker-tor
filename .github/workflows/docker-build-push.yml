@@ -32,7 +32,7 @@ jobs:
       - name: Test the Docker image
         working-directory: ${{ env.IMAGE }}
         run: docker compose -f docker-compose.test.yml run sut
-      - uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446 # v3.2.0
+      - uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
         if: github.ref == 'refs/heads/main'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
