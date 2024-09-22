@@ -5,7 +5,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: "0 0 * * 0"
   workflow_dispatch:
 
 permissions: {}
@@ -14,7 +14,7 @@ jobs:
   pull:
     strategy:
       matrix:
-        platform: ['linux/amd64', 'linux/arm64']
+        platform: ["linux/amd64", "linux/arm64"]
     runs-on: ubuntu-latest
     steps:
       - name: Set IMAGE
