@@ -1,0 +1,2 @@
+Log notice stdout
+SocksPort ${SOCKS_HOSTNAME}:${SOCKS_PORT}
