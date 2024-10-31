@@ -52,7 +52,7 @@ fi
 if [ "${DEBUG}" = true ]; then
 	\echo 'DEBUG: Content of /etc/tor/torrc:'
 	\echo 'DEBUG: =========================='
-	\cat /etc/tor/torrc | \sed -e 's/^/DEBUG: /'
+	\sed -e 's/^/DEBUG: /' /etc/tor/torrc
 	\echo 'DEBUG: =========================='
 fi
 
