@@ -56,6 +56,8 @@ if [ "${DEBUG}" = true ]; then
 	\echo 'DEBUG: =========================='
 fi
 
+\chmod 700 "${DATA_DIRECTORY:-/var/lib/tor}"
+
 cmd=$(\which tor)
 
 "${cmd}" -f /etc/tor/torrc "$@"
