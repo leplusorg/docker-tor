@@ -23,12 +23,22 @@ if [ -f '/etc/torrc' ]; then
 	fi
 	\cp -f '/etc/torrc' '/etc/tor/torrc'
 else
-	if [ -z "${SHELL_FORMAT+x}" ]; then
+	if [ -n "${SHELL_FORMAT+x}" ]; then
+		if [ "${DEBUG}" = true ]; then
+			\echo "DEBUG: Found custom Shell Format for envsubst: ${SHELL_FORMAT}"
+		fi
+	elif [ -n "${SHELL_FORMAT_EXTRA+x}" ]; then
+		if [ "${DEBUG}" = true ]; then
+			\echo "DEBUG: Found extra Shell Format for envsubst: ${SHELL_FORMAT_EXTRA}"
+		fi
+		# Escaping predefined variables names except
+		# SHELL_FORMAT_EXTRA, as we don't want them to be
+		# expanded.
+		SHELL_FORMAT="\${DATA_DIRECTORY},\${LOG_LEVEL},\${LOG_FILE},\${SOCKS_HOSTNAME},\${SOCKS_PORT},${SHELL_FORMAT_EXTRA}"
+	else
 		# Using single quotes here on purpose, we don't want the
 		# variables names to be expanded.
 		SHELL_FORMAT='${DATA_DIRECTORY},${LOG_LEVEL},${LOG_FILE},${SOCKS_HOSTNAME},${SOCKS_PORT}'
-	elif [ "${DEBUG}" = true ]; then
-		\echo "DEBUG: Found custom Shell Format for envsubst: ${SHELL_FORMAT}"
 	fi
 	DATA_DIRECTORY="${DATA_DIRECTORY:-/var/lib/tor}" \
 		LOG_LEVEL="${LOG_LEVEL:-notice}" \
