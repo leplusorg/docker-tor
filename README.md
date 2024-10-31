@@ -47,6 +47,9 @@ available:
 | SOCKS_HOSTNAME | The SOCKS hostname.     | 127.0.0.0.1  |
 | SOCKS_PORT     | The SOCKS port.         | 9150         |
 
+Note that the defaults are the same as Tor's default if the
+configuration option is not set.
+
 You can use the `-m` option of Docker to mount a custom template the
 inmage at `/etc/tor/torrc.template`. The templating engine
 (`envsubst`) will only replace specific environment variables in the
