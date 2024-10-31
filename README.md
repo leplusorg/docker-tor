@@ -8,6 +8,8 @@ Run TOR conveniently from a docker container.
 [![Docker Pulls](https://img.shields.io/docker/pulls/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Version](https://img.shields.io/docker/v/leplusorg/tor?sort=semver)](https://hub.docker.com/r/leplusorg/tor)
 
+## Usage
+
 The simplest way to launch a TOR proxy using this container is to use the following command:
 
 ```bash
@@ -26,6 +28,46 @@ Once the docker container has finished starting, you can test it with the follow
 curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/api/ip
 ```
 
+## Configuration
+
+The configuration file used by Tor in this container is
+`/et/tor/torrc` but it is generated on startup by the script
+`tor-wrapper.sh` using the `torrc.template` file. The file is based on
+the `torrc.sample` configuration that comes with Tor. But some
+configuration options have been made configurable using OS environment
+variables. You can set a custom value for these variables for example
+using the `-e` option of Docker. Below are the variables currently
+available:
+
+| Variable name  | Usage                   | Default      |
+| -------------- | ----------------------- | ------------ |
+| DATA_DIRECTORY | The data directory.     | /var/lib/tor |
+| LOG_LEVEL      | The logging level.      | notice       |
+| LOG_FILE       | The log file or device. | stdout       |
+| SOCKS_HOSTNAME | The SOCKS hostname.     | 127.0.0.0.1  |
+| SOCKS_PORT     | The SOCKS port.         | 9150         |
+
+Note that the defaults are the same as Tor's default if the
+configuration option is not set.
+
+You can use the `-m` option of Docker to mount a custom template the
+inmage at `/etc/tor/torrc.template`. The templating engine
+(`envsubst`) will only replace specific environment variables in the
+template. These are controlled by the environment variable
+`SHELL_FORMAT` (the default list is
+`${DATA_DIRECTORY},${LOG_LEVEL},${LOG_FILE},${SOCKS_HOSTNAME},${SOCKS_PORT}`). If
+you create a custom template with extra variables in it, you can set
+your own list using the environment variable `SHELL_FORMAT` or you can
+just append the extra variables to the existing list using the
+environment variable `SHELL_FORMAT_EXTRA`. Be careful to escape the
+`$` characters since you don't want them to be interpolated when
+defining `SHELL_FORMAT` or `SHELL_FORMAT_EXTRA`.
+
+Of course you can also build an image on top of this one with a custom `torrc.template`.
+
+For troubleshooting, you can enable verbose logging by setting the
+value of environment variable `DEBUG` to `true`.
+
 ## Request configuration change
 
-Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=thomasleplus&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration.
+Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=thomasleplus&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration or to expose a new Tor configuration option.

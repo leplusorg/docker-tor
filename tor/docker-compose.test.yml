@@ -12,3 +12,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - SOCKS_HOSTNAME=0.0.0.0
