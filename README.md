@@ -39,13 +39,14 @@ variables. You can set a custom value for these variables for example
 using the `-e` option of Docker. Below are the variables currently
 available:
 
-| Variable name  | Usage                   | Default      |
-| -------------- | ----------------------- | ------------ |
-| DATA_DIRECTORY | The data directory.     | /var/lib/tor |
-| LOG_LEVEL      | The logging level.      | notice       |
-| LOG_FILE       | The log file or device. | stdout       |
-| SOCKS_HOSTNAME | The SOCKS hostname.     | 127.0.0.0.1  |
-| SOCKS_PORT     | The SOCKS port.         | 9150         |
+| Variable name    | Usage                                                           | Default      |
+| ---------------- | --------------------------------------------------------------- | ------------ |
+| DATA_DIRECTORY   | The data directory.                                             | /var/lib/tor |
+| LOG_LEVEL        | The logging level.                                              | notice       |
+| LOG_FILE         | The log file or device.                                         | stdout       |
+| SOCKS_HOSTNAME   | The SOCKS hostname.                                             | 127.0.0.0.1  |
+| SOCKS_PORT       | The SOCKS port.                                                 | 9150         |
+| TORRC_APPEND     | A block of configuration appended at the end of the torrc file. |              |
 
 Note that the defaults are the same as Tor's default if the
 configuration option is not set.

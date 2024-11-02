@@ -34,18 +34,19 @@ else
 		# Escaping predefined variables names except
 		# SHELL_FORMAT_EXTRA, as we don't want them to be
 		# expanded.
-		SHELL_FORMAT="\${DATA_DIRECTORY},\${LOG_LEVEL},\${LOG_FILE},\${SOCKS_HOSTNAME},\${SOCKS_PORT},${SHELL_FORMAT_EXTRA}"
+		SHELL_FORMAT="\${DATA_DIRECTORY},\${LOG_LEVEL},\${LOG_FILE},\${SOCKS_HOSTNAME},\${SOCKS_PORT},\${TORRC_APPEND},${SHELL_FORMAT_EXTRA}"
 	else
 		# Using single quotes here on purpose, we don't want the
 		# variables names to be expanded.
 		# shellcheck disable=SC2016
-		SHELL_FORMAT='${DATA_DIRECTORY},${LOG_LEVEL},${LOG_FILE},${SOCKS_HOSTNAME},${SOCKS_PORT}'
+		SHELL_FORMAT='${DATA_DIRECTORY},${LOG_LEVEL},${LOG_FILE},${SOCKS_HOSTNAME},${SOCKS_PORT},${TORRC_APPEND}'
 	fi
 	DATA_DIRECTORY="${DATA_DIRECTORY:-/var/lib/tor}" \
 		LOG_LEVEL="${LOG_LEVEL:-notice}" \
 		LOG_FILE="${LOG_FILE:-stdout}" \
 		SOCKS_HOSTNAME="${SOCKS_HOSTNAME:-127.0.0.1}" \
 		SOCKS_PORT="${SOCKS_PORT:-9050}" \
+		TORRC_APPEND="${TORRC_APPEND:-}" \
 		envsubst "${SHELL_FORMAT}" </etc/tor/torrc.template >/etc/tor/torrc
 fi
 
