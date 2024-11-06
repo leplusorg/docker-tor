@@ -61,4 +61,4 @@ fi
 
 cmd=$(\which tor)
 
-"${cmd}" -f /etc/tor/torrc "$@"
+exec "${cmd}" -f /etc/tor/torrc "$@"
