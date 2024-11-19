@@ -29,4 +29,4 @@ USER "${USER_NAME}"
 WORKDIR "${HOME}"
 
 # sleep 60s to make sure that container survived its own healthcheck
-CMD ["/bin/sh", "-c" "/bin/sleep 60 ; /usr/bin/curl -i -s -S -f --socks5 tor:9050 --socks5-hostname tor:9050 https://check.torproject.org/api/ip"]
+CMD ["/bin/sh", "-c", "/bin/sleep 60 ; /usr/bin/curl -i -s -S -f --socks5 tor:9050 --socks5-hostname tor:9050 https://check.torproject.org/api/ip"]
