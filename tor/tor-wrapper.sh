@@ -22,6 +22,12 @@ if [ -f '/etc/torrc' ]; then
 		\echo 'DEBUG: Found existing /etc/torrc, overwritting /etc/tor/torrc.'
 	fi
 	\cp -f '/etc/torrc' '/etc/tor/torrc'
+	\echo 'WARN: Found configuration file at deprecated location /etc/torrc. Please use /etc/tor/torrc instead or it will stop working in future releases of this image.'
+elif [ -n "${SKIP_TEMPLATE+x}" ]; then
+	if [ "${DEBUG}" = true ]; then
+		\echo "DEBUG: Skipping templating since SKIP_TEMPLATE is set."
+	fi
+	\echo "Skipping templating."
 else
 	if [ -n "${SHELL_FORMAT+x}" ]; then
 		if [ "${DEBUG}" = true ]; then
