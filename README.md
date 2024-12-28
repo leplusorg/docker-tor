@@ -51,6 +51,11 @@ available:
 Note that the defaults are the same as Tor's default if the
 configuration option is not set.
 
+If you set the SKIP_TEMPLATE variable to any value, the whole
+templating logic will be disabled and the configuration file
+/etc/tor/torrc will be used as is (either the default one provided by
+Tor or yours if you mount one in the container).
+
 You can use the `-m` option of Docker to mount a custom template in the
 image at `/etc/tor/torrc.template`. The templating engine
 (`envsubst`) will only replace specific environment variables in the
