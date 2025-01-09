@@ -48,6 +48,8 @@ version: "3.8"
 services:
   tor:
     image: leplusorg/tor:latest
+    environment:
+      - SOCKS_HOSTNAME=0.0.0.0
   bar:
     image: foo/bar:latest
     links:
