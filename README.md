@@ -10,23 +10,57 @@ Run TOR conveniently from a docker container.
 
 ## Usage
 
-The simplest way to launch a TOR proxy using this container is to use the following command:
+### To use the containerized TOR proxy from your host machine
+
+The simplest way to launch a TOR proxy using this container accessible
+from your host machine only is to use the following command:
 
 ```bash
-docker run --rm -p 9050:9050 leplusorg/tor
+docker run --rm -p 127.0.0.1:9050:9050 -e SOCKS_HOSTNAME 0.0.0.0 leplusorg/tor
 ```
 
-If you need to ovverride the default [torrc](tor/torrc) file, you can mount your version this way:
+If you want the TOR proxy to be reachable from other machines on your
+network (i.e. share it), you can run:
 
 ```bash
-docker run --rm -p 9050:9050 -v /local/path/to/your/torrc:/etc/torrc leplusorg/tor
+docker run --rm -p 0.0.0.0:9050:9050 -e SOCKS_HOSTNAME 0.0.0.0 leplusorg/tor
 ```
+
+Then make sure that your firewall rules allow remote connection to
+your port 9050.
 
 Once the docker container has finished starting, you can test it with the following command:
 
 ```bash
 curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/api/ip
 ```
+
+### To use the containerized TOR proxy from other containers
+
+In that use case, you can use `docker compose` with a compose file
+similar to this (where `bar`'s definition should be replaced by the
+container that you actually want to run using TOR):
+
+```YAML
+---
+version: "3.8"
+
+services:
+  tor:
+    image: leplusorg/tor:latest
+  bar:
+    image: foo/bar:latest
+    links:
+      - tor
+    environment:
+      - ALL_PROXY=socks5://tor:9050
+```
+
+Note that ALL_PROXY is not always honored by applications so depending
+on the container that you are running, you should read its
+documentation to figure out the proper way to tell it to use
+`tor:9050` as a proxy. If this is misconfigured, everything might look
+like it's working but the TOR proxy is not actually being used!
 
 ## Configuration
 
