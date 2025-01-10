@@ -16,14 +16,14 @@ The simplest way to launch a TOR proxy using this container accessible
 from your host machine only is to use the following command:
 
 ```bash
-docker run --rm -p 127.0.0.1:9050:9050 -e SOCKS_HOSTNAME 0.0.0.0 leplusorg/tor
+docker run --rm -p 127.0.0.1:9050:9050 -e SOCKS_HOSTNAME=0.0.0.0 leplusorg/tor
 ```
 
 If you want the TOR proxy to be reachable from other machines on your
 network (i.e. share it), you can run:
 
 ```bash
-docker run --rm -p 0.0.0.0:9050:9050 -e SOCKS_HOSTNAME 0.0.0.0 leplusorg/tor
+docker run --rm -p 0.0.0.0:9050:9050 -e SOCKS_HOSTNAME=0.0.0.0 leplusorg/tor
 ```
 
 Then make sure that your firewall rules allow remote connection to
