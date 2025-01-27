@@ -63,7 +63,7 @@ if [ "${DEBUG}" = true ]; then
 	\echo 'DEBUG: =========================='
 fi
 
-\chown -R $(id -u):$(id -g) "${DATA_DIRECTORY:-/var/lib/tor}"
+\chown -R "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
 
 cmd=$(\which tor)
 
