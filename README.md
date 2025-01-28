@@ -106,7 +106,7 @@ environment variable `SHELL_FORMAT_EXTRA`. Be careful to escape the
 defining `SHELL_FORMAT` or `SHELL_FORMAT_EXTRA`.
 
 The out-of-the-box torrc.template also loads any file in the
-`/etc/tor/torrc.d/` directory with the `.conf` extension so you can
+`/etc/torrc.d/` directory with the `.conf` extension so you can
 mount your custom torrc configuration file(s) there. This is similar
 to the `TORRC_APPEND` environment variable but using files instead.
 
