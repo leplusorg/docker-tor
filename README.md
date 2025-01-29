@@ -111,7 +111,7 @@ templating logic will be disabled and the configuration file
 by mounting it (or adding it to your custom image built from this
 one). Otherwise TOR will refuse to start with the following messages:
 
-```
+```Text
 [warn] Unable to open configuration file "/etc/tor/torrc".
 [err] Reading config failed--see warnings above
 ```
