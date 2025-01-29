@@ -66,10 +66,10 @@ like it's working but the TOR proxy is not actually being used!
 
 ## Configuration
 
-The configuration file used by Tor in this container is
+The configuration file used by TOR in this container is
 `/et/tor/torrc` but it is generated on startup by the script
 `tor-wrapper.sh` using the `torrc.template` file. The file is based on
-the `torrc.sample` configuration that comes with Tor. But some
+the `torrc.sample` configuration that comes with TOR. But some
 configuration options have been made configurable using OS environment
 variables. You can set a custom value for these variables for example
 using the `-e` option of Docker. Below are the variables currently
@@ -84,13 +84,8 @@ available:
 | SOCKS_PORT     | The SOCKS port.                                                 | 9150         |
 | TORRC_APPEND   | A block of configuration appended at the end of the torrc file. |              |
 
-Note that the defaults are the same as Tor's default if the
+Note that the defaults are the same as TOR's default if the
 configuration option is not set.
-
-If you set the SKIP_TEMPLATE variable to any value, the whole
-templating logic will be disabled and the configuration file
-/etc/tor/torrc will be used as is (either the default one provided by
-Tor or yours if you mount one in the container).
 
 You can use the `-m` option of Docker to mount a custom template in the
 image at `/etc/tor/torrc.template`. The templating engine
@@ -110,9 +105,20 @@ The out-of-the-box torrc.template also loads any file in the
 mount your custom torrc configuration file(s) there. This is similar
 to the `TORRC_APPEND` environment variable but using files instead.
 
+If you set the SKIP_TEMPLATE variable to any value, the whole
+templating logic will be disabled and the configuration file
+/etc/tor/torrc will be used. In that case you must provide that file
+by mounting it (or adding it to your custom image built from this
+one). Otherwise TOR will refuse to start with the following messages:
+
+```
+[warn] Unable to open configuration file "/etc/tor/torrc".
+[err] Reading config failed--see warnings above
+```
+
 For troubleshooting, you can enable verbose logging by setting the
 value of environment variable `DEBUG` to `true`.
 
 ## Request configuration change
 
-Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=thomasleplus&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration or to expose a new Tor configuration option.
+Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=thomasleplus&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration or to expose a new TOR configuration option.
