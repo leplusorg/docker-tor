@@ -16,10 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set IMAGE
+        shell: bash
         run: echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Set VERSION
         if: github.ref == 'refs/heads/main'
+        shell: bash
         run: |
           # shellcheck disable=SC2086
           VERSION="$(\grep ${IMAGE}/Dockerfile -e '^FROM' | \head -n 1 | \sed -e 's/@.*$//; s/^.*://;')"
