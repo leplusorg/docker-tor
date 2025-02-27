@@ -7,6 +7,8 @@ Run TOR conveniently from a docker container.
 [![Docker Stars](https://img.shields.io/docker/stars/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Pulls](https://img.shields.io/docker/pulls/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Version](https://img.shields.io/docker/v/leplusorg/tor?sort=semver)](https://hub.docker.com/r/leplusorg/tor)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/8752/badge)](https://bestpractices.coreinfrastructure.org/projects/8752)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/leplusorg/docker-tor/badge)](https://securityscorecards.dev/viewer/?uri=github.com/leplusorg/docker-tor)
 
 ## Usage
 
