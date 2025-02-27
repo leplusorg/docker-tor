@@ -119,6 +119,17 @@ one). Otherwise TOR will refuse to start with the following messages:
 For troubleshooting, you can enable verbose logging by setting the
 value of environment variable `DEBUG` to `true`.
 
+## Software Bill of Materials (SBOM)
+
+To get the SBOM for the latest image (in SPDX JSON format), use the
+following command:
+
+```bash
+docker buildx imagetools inspect leplusorg/tor --format '{{ json (index .SBOM "linux/amd64").SPDX }}'
+```
+
+Replace `linux/amd64` by the desired platform (`linux/amd64`, `linux/arm64` etc.).
+
 ## Request configuration change
 
 Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=thomasleplus&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration or to expose a new TOR configuration option.
