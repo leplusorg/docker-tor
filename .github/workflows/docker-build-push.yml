@@ -8,7 +8,9 @@ on:
     - cron: "0 0 * * 0"
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  # Required by sigstore
+  id-token: write
 
 jobs:
   build:
@@ -48,3 +50,18 @@ jobs:
           sbom: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      - name: Install cosign
+        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
+      - name: Sign the Docker image
+        working-directory: ${{ env.IMAGE }}
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        shell: bash
+        run: |
+          images=""
+          for tag in ${TAGS}; do
+            images+="${tag}@${DIGEST} "
+          done
+          # shellcheck disable=SC2086
+          cosign sign --recursive --yes ${images}
