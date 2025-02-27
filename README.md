@@ -130,6 +130,37 @@ docker buildx imagetools inspect leplusorg/tor --format '{{ json (index .SBOM "l
 
 Replace `linux/amd64` by the desired platform (`linux/amd64`, `linux/arm64` etc.).
 
+### Sigstore
+
+[Sigstore](https://docs.sigstore.dev) is trying to improve supply
+chain security by allowing you to verify the origin of an
+artifcat. You can verify that the jar that you use was actually
+produced by this repository. This means that if you verify the
+signature of the ristretto jar, you can trust the integrity of the
+whole supply chain from code source, to CI/CD build, to distribution
+on Maven Central or whever you got the jar from.
+
+You can use the following command to verify the latest image using its
+sigstore signature attestation:
+
+```bash
+cosign verify leplusorg/tor --certificate-identity-regexp 'https://github\.com/leplusorg/docker-av/\.github/workflows/.+' --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'
+```
+
+The output should look something like this:
+
+```text
+Verification for index.docker.io/leplusorg/xml:main --
+The following checks were performed on each of these signatures:
+  - The cosign claims were validated
+  - Existence of the claims in the transparency log was verified offline
+  - The code-signing certificate was verified using trusted certificate authority certificates
+
+[{"critical":...
+```
+
+For instructions on how to install `cosign`, please read this [documentation](https://docs.sigstore.dev/cosign/system_config/installation/).
+
 ## Request configuration change
 
 Please use [this link](https://github.com/leplusorg/docker-tor/issues/new?assignees=thomasleplus&labels=enhancement&template=feature_request.md&title=%5BFEAT%5D) (GitHub account required) to suggest a change in this image configuration or to expose a new TOR configuration option.
