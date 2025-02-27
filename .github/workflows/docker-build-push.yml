@@ -52,8 +52,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       - name: Install cosign
+        if: github.ref == 'refs/heads/main'
         uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
       - name: Sign the Docker image
+        if: github.ref == 'refs/heads/main'
         working-directory: ${{ env.IMAGE }}
         env:
           DIGEST: ${{ steps.build.outputs.digest }}
