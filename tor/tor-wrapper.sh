@@ -75,8 +75,9 @@ if [ -z "${SET_PERMISSIONS+x}" ] || [ "${SET_PERMISSIONS}" = true ]; then
 	if [ "${DEBUG}" = true ]; then
 		\echo "DEBUG: Adjusting permissions on ${DATA_DIRECTORY:-/var/lib/tor}."
 	fi
-	\chown -R "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
-	\chmod -R u+rwx,g+rx "${DATA_DIRECTORY:-/var/lib/tor}"
+	# As per https://gitlab.torproject.org/tpo/core/tor/-/blob/main/src/lib/fs/dir.c
+	\chown "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
+	\chmod g-w,o-rwx "${DATA_DIRECTORY:-/var/lib/tor}"
 fi
 
 cmd=$(\which tor)
