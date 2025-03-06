@@ -77,7 +77,7 @@ if [ -z "${SET_PERMISSIONS+x}" ] || [ "${SET_PERMISSIONS}" = true ]; then
 	fi
 	# As per https://gitlab.torproject.org/tpo/core/tor/-/blob/main/src/lib/fs/dir.c
 	\chown "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
-	\chmod g-w,o-rwx "${DATA_DIRECTORY:-/var/lib/tor}"
+	\chmod g-rwx,o-rwx "${DATA_DIRECTORY:-/var/lib/tor}"
 fi
 
 cmd=$(\which tor)
