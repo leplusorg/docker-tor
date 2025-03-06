@@ -68,6 +68,8 @@ like it's working but the TOR proxy is not actually being used!
 
 ## Configuration
 
+### Torrc
+
 The configuration file used by TOR in this container is
 `/et/tor/torrc` but it is generated on startup by the script
 `tor-wrapper.sh` using the `torrc.template` file. The file is based on
@@ -117,6 +119,15 @@ one). Otherwise TOR will refuse to start with the following messages:
 [warn] Unable to open configuration file "/etc/tor/torrc".
 [err] Reading config failed--see warnings above
 ```
+
+### Permissions
+
+By default `tor-wrapper.sh` will adjust the permissions on the data
+directory to avoid a warning on start up that says `Fixing permissions
+on directory ...`. This can be disabled by setting the value of
+environment variable `SET_PERMISSIONS` to `false`.
+
+### Debugging
 
 For troubleshooting, you can enable verbose logging by setting the
 value of environment variable `DEBUG` to `true`.
