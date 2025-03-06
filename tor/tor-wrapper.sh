@@ -72,11 +72,11 @@ if [ "${DEBUG}" = true ]; then
 fi
 
 if [ -z "${SET_PERMISSIONS+x}" ] || [ "${SET_PERMISSIONS}" = true ]; then
-    if [ "${DEBUG}" = true ]; then
-	\echo "DEBUG: Adjusting permissions on ${DATA_DIRECTORY:-/var/lib/tor}."
-    fi
-    \chown -R "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
-    \chmod u+rwx,g+rx "${DATA_DIRECTORY:-/var/lib/tor}"
+	if [ "${DEBUG}" = true ]; then
+		\echo "DEBUG: Adjusting permissions on ${DATA_DIRECTORY:-/var/lib/tor}."
+	fi
+	\chown -R "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
+	\chmod -R u+rwx,g+rx "${DATA_DIRECTORY:-/var/lib/tor}"
 fi
 
 cmd=$(\which tor)
