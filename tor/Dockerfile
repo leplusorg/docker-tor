@@ -2,6 +2,8 @@ FROM alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff45
 
 HEALTHCHECK CMD ["/usr/bin/curl", "--socks5", "localhost:9050", "--socks5-hostname", "localhost:9050", "https://check.torproject.org/api/ip"]
 
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
 # hadolint ignore=DL3018
 RUN apk --update --no-cache add bash curl gettext tor \
     && rm -rf /var/cache/apk/* \
