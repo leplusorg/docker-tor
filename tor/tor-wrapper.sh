@@ -10,9 +10,9 @@ declare -l SKIP_TEMPLATE
 # skip template mode is off by default
 SKIP_TEMPLATE="${SKIP_TEMPLATE:-false}"
 
-declare -l SET_PERMISIONS
+declare -l SET_PERMISSIONS
 # set permissions mode is on by default
-SET_PERMISIONS="${SET_PERMISIONS:-true}"
+SET_PERMISSIONS="${SET_PERMISSIONS:-true}"
 
 # Honoring GitHub runner debug mode
 if [ -n "${RUNNER_DEBUG+x}" ] && [ "${RUNNER_DEBUG}" = 1 ]; then
