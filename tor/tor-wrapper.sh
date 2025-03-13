@@ -2,10 +2,17 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+declare -l DEBUG
 # debug mode is off by default
-if [ -z "${DEBUG+x}" ]; then
-	DEBUG=false
-fi
+DEBUG="${DEBUG:-false}"
+
+declare -l SKIP_TEMPLATE
+# skip template mode is off by default
+SKIP_TEMPLATE="${SKIP_TEMPLATE:-false}"
+
+declare -l SET_PERMISIONS
+# set permissions mode is on by default
+SET_PERMISIONS="${SET_PERMISIONS:-true}"
 
 # Honoring GitHub runner debug mode
 if [ -n "${RUNNER_DEBUG+x}" ] && [ "${RUNNER_DEBUG}" = 1 ]; then
@@ -24,7 +31,7 @@ if [ -f '/etc/torrc' ]; then
 	\cp -f '/etc/torrc' '/etc/tor/torrc'
 	\echo 'WARN: Found configuration file at deprecated location /etc/torrc. Please use /etc/tor/torrc instead or it will stop working in future releases of this image.'
 fi
-if [ -n "${SKIP_TEMPLATE+x}" ]; then
+if [ "${SKIP_TEMPLATE}" = true ]; then
 	if [ "${DEBUG}" = true ]; then
 		\echo "DEBUG: Skipping templating since SKIP_TEMPLATE is set."
 	fi
@@ -71,7 +78,7 @@ if [ "${DEBUG}" = true ]; then
 	\echo 'DEBUG: =========================='
 fi
 
-if [ -z "${SET_PERMISSIONS+x}" ] || [ "${SET_PERMISSIONS}" = true ]; then
+if [ "${SET_PERMISSIONS}" = true ]; then
 	if [ "${DEBUG}" = true ]; then
 		\echo "DEBUG: Adjusting permissions on ${DATA_DIRECTORY:-/var/lib/tor}."
 	fi

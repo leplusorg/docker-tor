@@ -109,7 +109,7 @@ The out-of-the-box torrc.template also loads any file in the
 mount your custom torrc configuration file(s) there. This is similar
 to the `TORRC_APPEND` environment variable but using files instead.
 
-If you set the SKIP_TEMPLATE variable to any value, the whole
+If you set the `SKIP_TEMPLATE` variable to `true`, the whole
 templating logic will be disabled and the configuration file
 /etc/tor/torrc will be used. In that case you must provide that file
 by mounting it (or adding it to your custom image built from this

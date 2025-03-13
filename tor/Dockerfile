@@ -15,6 +15,7 @@ RUN apk -U upgrade \
       apk -u list ; \
       exit 1 ; \
     fi \
+    && apk cache clean \
     && rm -rf /var/cache/apk/*
 
 RUN chmod o+rwx /etc/tor
