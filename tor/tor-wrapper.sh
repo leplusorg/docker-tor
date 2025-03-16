@@ -10,6 +10,10 @@ declare -l SKIP_TEMPLATE
 # skip template mode is off by default
 SKIP_TEMPLATE="${SKIP_TEMPLATE:-false}"
 
+declare -l CUSTOM_TORRC
+# custom torrc mode is off by default
+CUSTOM_TORRC="${CUSTOM_TORRC:-false}"
+
 declare -l SET_PERMISSIONS
 # set permissions mode is on by default
 SET_PERMISSIONS="${SET_PERMISSIONS:-true}"
@@ -40,7 +44,7 @@ else
 	if [ "${DEBUG}" = true ]; then
 		\echo "DEBUG: Using template since SKIP_TEMPLATE is not set."
 	fi
-	if [ -f '/etc/tor/torrc' ]; then
+	if [ "${CUSTOM_TORRC}" = true ] && [ -f '/etc/tor/torrc' ]; then
 		>&2 \echo "ERROR: Cannot use both configuration template and provided torrc file. Either remove the torrc file or set SKIP_TEMPLATE=true to use provided torrc."
 		exit 1
 	fi
