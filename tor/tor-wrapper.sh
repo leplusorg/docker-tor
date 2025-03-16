@@ -41,7 +41,7 @@ else
 		\echo "DEBUG: Using template since SKIP_TEMPLATE is not set."
 	fi
 	if [ -f '/etc/tor/torrc' ]; then
-		>&2 \echo "ERROR: Cannot use both configuration template and provided torrc file. Either remove the torrc file or set SKIP_TEMPLATE to use provided torrc."
+		>&2 \echo "ERROR: Cannot use both configuration template and provided torrc file. Either remove the torrc file or set SKIP_TEMPLATE=true to use provided torrc."
 		exit 1
 	fi
 	if [ -n "${SHELL_FORMAT+x}" ]; then
