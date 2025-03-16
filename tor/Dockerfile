@@ -20,9 +20,11 @@ RUN apk -U upgrade \
 
 RUN chmod o+rwx /etc/tor
 
-USER "tor"
-
 COPY torrc.template tor-wrapper.sh /etc/tor/
+
+RUN chmod ugo+rx /etc/tor/tor-wrapper.sh
+
+USER "tor"
 
 WORKDIR "/var/lib/tor"
 
