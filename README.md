@@ -2,7 +2,7 @@
 
 Run TOR conveniently from a docker container.
 
-[![Dockerfile](tor/Dockerfile)
+[![Dockerfile](https://img.shields.io/badge/GitHub-Dockerfile-blue)](tor/Dockerfile)
 [![Docker Build](https://github.com/leplusorg/docker-tor/workflows/Docker/badge.svg)](https://github.com/leplusorg/docker-tor/actions?query=workflow:"Docker")
 [![Docker Stars](https://img.shields.io/docker/stars/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
 [![Docker Pulls](https://img.shields.io/docker/pulls/leplusorg/tor)](https://hub.docker.com/r/leplusorg/tor)
