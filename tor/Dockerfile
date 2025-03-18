@@ -18,11 +18,13 @@ RUN apk -U upgrade \
     && apk cache clean \
     && rm -rf /var/cache/apk/*
 
-RUN chmod o+rwx /etc/tor
-
-USER "tor"
+RUN chmod ugo+rwx /etc/tor
 
 COPY torrc.template tor-wrapper.sh /etc/tor/
+
+RUN chmod ugo+rx /etc/tor/tor-wrapper.sh
+
+USER "tor"
 
 WORKDIR "/var/lib/tor"
 
