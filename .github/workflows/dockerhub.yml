@@ -3,7 +3,6 @@ name: Docker Hub
 
 on:
   push:
-  pull_request:
   schedule:
     - cron: "0 0 * * 0"
   workflow_dispatch:
@@ -12,24 +11,26 @@ permissions: {}
 
 jobs:
   pull:
+    if: startsWith(github.ref, 'refs/heads/')
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         platform: ["linux/amd64", "linux/arm64"]
-    runs-on: ubuntu-latest
+        tag: ["main", "latest"]
     steps:
       - name: Set IMAGE
         shell: bash
         run: echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Pull the latest ${{ matrix.platform }} image
+      - name: Pull the ${{ matrix.tag }} ${{ matrix.platform }} image
         shell: bash
-        run: docker pull --platform "${{ matrix.platform }}" "${GITHUB_REPOSITORY_OWNER}/${IMAGE}"
-      - name: Pull the latest ${{ matrix.platform }} image SBOM
+        run: docker pull --platform "${{ matrix.platform }}" "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}"
+      - name: Pull the ${{ matrix.tag }} ${{ matrix.platform }} image SBOM
         shell: bash
-        run: docker buildx imagetools inspect "${GITHUB_REPOSITORY_OWNER}/${IMAGE}" --format "{{ json (index .SBOM \"${{ matrix.platform }}\").SPDX }}"
+        run: docker buildx imagetools inspect "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --format "{{ json (index .SBOM \"${{ matrix.platform }}\").SPDX }}"
       - name: Install cosign
         uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
-      - name: Verify the Docker image signature
+      - name: Verify the ${{ matrix.tag }} image signature
         shell: bash
         run: |
-          cosign verify "${GITHUB_REPOSITORY_OWNER}/${IMAGE}" --certificate-identity-regexp "https://github\.com/${GITHUB_REPOSITORY}/\.github/workflows/.+" --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'
+          cosign verify "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --certificate-identity-regexp "https://github\.com/${GITHUB_REPOSITORY}/\.github/workflows/.+" --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'
