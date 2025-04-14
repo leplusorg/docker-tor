@@ -14,7 +14,7 @@ u=$(\apk -u list | \tr '\n' '|')
 	p="${l%=*}"
 	v1="${l#*=}"
 	v="$(\echo "|${u}" | \grep -o -e "\|${p}-[^\|]*upgradable from: ${p}-${v1}" || true)"
-	n=$(( $(\echo -n "${p}" | wc -c) + 2))
+	n=$(($(\echo -n "${p}" | wc -c) + 2))
 	v2="$(\echo "${v}" | \cut -d ' ' -f 0 | \cut -c ${n}-)"
 	if [ -n "${v2}" ] && [ "${v2}" != "${v1}" ]; then
 		\echo "${p} ${v1} -> ${v2}"
