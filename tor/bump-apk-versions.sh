@@ -11,7 +11,7 @@ cd "$(\dirname "$0")"
 
 u=$(\apk -u list | \tr '\n' '|')
 
-\sed -e :a -e '/\\$/N; s/\\\n//; ta' Dockerfile | \grep -o -e 'apk[^\&\;]*add[^\&\;]*' | \grep -o -e '[^ ]*\=[^ ]*' | while IFS= \read -r l; do
+\sed -e :a -e '/\\$/N; s/\\\n//; ta' Dockerfile | \grep -o -e 'apk[^\&\;]*add[^\&\;]*' | \grep -o -e '[^ ]*=[^ ]*' | while IFS= \read -r l; do
 	p="${l%=*}"
 	v1="${l#*=}"
 	v="$(\echo "|${u}" | \grep -o -e "\|${p}-[^\|]*upgradable from: ${p}-${v1}" || true)"
