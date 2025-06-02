@@ -70,3 +70,43 @@ jobs:
           done
           # shellcheck disable=SC2086
           cosign sign --recursive --yes ${images}
+      - name: Set VERSION
+        if: github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          # shellcheck disable=SC2086
+          VERSION="$(\grep ${IMAGE}/Dockerfile -e '^FROM' | \head -n 1 | \sed -e 's/@.*$//; s/^.*://;')"
+          if [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] ; then
+            \echo "VERSION=${VERSION}" >> "${GITHUB_ENV}"
+          fi
+      - name: Check if release already exists
+        if: env.VERSION != ''
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        id: check-release
+        with:
+          script: |
+            const { VERSION } = process.env
+            return github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: `v${VERSION}`,
+            }).then(function(result) {
+              core.debug(JSON.stringify(result))
+              core.info(`Release ${result.data.tag_name} found`)
+              return result.data.tag_name
+            }).catch(function(error) {
+              if (error.status === 404) {
+                core.info(`Release v${VERSION} not found`)
+                return
+              } else {
+                throw error
+              }
+            })
+          result-encoding: string
+      - name: Trigger Release
+        if: env.VERSION != '' && steps.check-release.outputs.result == 'undefined'
+        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          tag_name: v${{ env.VERSION }}
