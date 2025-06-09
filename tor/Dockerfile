@@ -10,6 +10,7 @@ RUN apk -U upgrade \
     bash=5.2.37-r0 \
     curl=8.14.1-r0 \
     gettext=0.24.1-r0 \
+    git=2.49.0-r0 \
     tor=0.4.8.16-r0 \
     && if apk -u list | grep -q -e . ; then \
       apk -u list ; \
