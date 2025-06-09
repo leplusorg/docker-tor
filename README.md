@@ -1,6 +1,6 @@
 # TOR
 
-Run TOR conveniently from a docker container.
+Run TOR conveniently from a multi-platform docker container.
 
 [![Dockerfile](https://img.shields.io/badge/GitHub-Dockerfile-blue)](tor/Dockerfile)
 [![Docker Build](https://github.com/leplusorg/docker-tor/workflows/Docker/badge.svg)](https://github.com/leplusorg/docker-tor/actions?query=workflow:"Docker")
