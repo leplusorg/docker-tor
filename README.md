@@ -34,7 +34,7 @@ your port 9050.
 Once the docker container has finished starting, you can test it with the following command:
 
 ```bash
-curl --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/api/ip
+curl -fsSL --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/api/ip
 ```
 
 ### To use the containerized TOR proxy from other containers
