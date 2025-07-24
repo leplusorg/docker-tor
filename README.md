@@ -31,7 +31,7 @@ docker run --rm -p 0.0.0.0:9050:9050 -e SOCKS_HOSTNAME=0.0.0.0 leplusorg/tor
 Then make sure that your firewall rules allow remote connection to
 your port 9050.
 
-Once the docker container has finished starting, you can test it with the following command:
+Once the Docker container has finished starting, you can test it with the following command:
 
 ```bash
 curl -fsSL --socks5 localhost:9050 --socks5-hostname localhost:9050 https://check.torproject.org/api/ip
