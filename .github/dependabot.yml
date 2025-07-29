@@ -5,8 +5,6 @@ updates:
     directory: "/tor"
     schedule:
       interval: "daily"
-    cooldown:
-      default-days: 7
     commit-message:
       prefix: chore(dev-deps)
   - package-ecosystem: "github-actions"
