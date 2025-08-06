@@ -3,8 +3,6 @@ name: "Check PR"
 on: pull_request
 
 permissions:
-  actions: write
-  contents: write
   pull-requests: write
 
 jobs:
@@ -39,12 +37,6 @@ jobs:
           PR_TITLE: ${{github.event.pull_request.title}}
           PR_COMMITS_URL: ${{github.event.pull_request.commits_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - name: Authenticate CLI with a PAT
-        env:
-          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        if: env.RELEASE_TOKEN != ''
-        shell: bash
-        run: echo "${RELEASE_TOKEN}" | gh auth login --with-token
       - name: Update PR labels
         shell: bash
         run: |
