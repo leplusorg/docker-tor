@@ -1,0 +1,134 @@
+---
+name: "Check PR"
+on: pull_request
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check commits
+        shell: bash
+        run: |
+          # Check the commits
+          commits_json=$(curl -fsSL -H "Authorization: token ${GITHUB_TOKEN}" "${PR_COMMITS_URL}")
+          echo -n 'Commits: '
+          echo "${commits_json}" | jq '.'
+          commit_count="$(echo "${commits_json}" | jq -r 'length')"
+          # Check single commit
+          if [ "${commit_count}" -eq 1 ] ; then
+            commit_title="$(echo "${commits_json}" | jq -r '.[0].commit.message' | head -n 1)"
+            echo "Commit title: ${commit_title}"
+            if [[ "${commit_title}" != "${PR_TITLE}" ]] ; then
+              >&2 echo 'Single commit must have same title as PR.'
+              exit 1
+            fi
+          fi
+          # Check that all commits are signed
+          for ((i = 0 ; i < commit_count ; i++ )); do
+            if [[ "$(echo "${commits_json}" | jq -r ".[${i}].commit.verification.verified")" == 'false' ]] ; then
+              >&2 echo "Commit $(echo "${commits_json}" | jq -r ".[${i}].sha") must be signed."
+              exit 1
+            fi
+          done
+        env:
+          PR_TITLE: ${{github.event.pull_request.title}}
+          PR_COMMITS_URL: ${{github.event.pull_request.commits_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Authenticate CLI with a PAT
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        if: env.RELEASE_TOKEN != ''
+        shell: bash
+        run: echo "${RELEASE_TOKEN}" | gh auth login --with-token
+      - name: Update PR labels
+        shell: bash
+        run: |
+          # Check PR title is a conventional commit message
+          regexp='^((build|chore|ci|docs|feat|fix|perf|refactor|style|test)(\([a-zA-Z0-9\-]+\))?)!?: .*$'
+          if ! [[ "${PR_TITLE}" =~ ${regexp} ]] ; then
+            >&2 echo 'Non conventional PR title.'
+            exit 1
+          fi
+          scoped_type="${BASH_REMATCH[1]}"
+          type="${BASH_REMATCH[2]}"
+          add_labels=()
+          remove_labels=()
+          # Remove the labels we manage
+          for label in build chore ci docs feat fix perf refactor test style ; do
+            if [[ "${label}" == "${type}" ]]; then
+              echo "Label to add: ${label}"
+              # shellcheck disable=SC2076
+              if [[ "${PR_LABELS}" =~ "\"${label}\"" ]] ; then
+                echo "Label ${label} already present"
+              else
+                add_labels+=("${label}")
+              fi
+            else
+              echo "Label to remove: ${label}"
+              # shellcheck disable=SC2076
+              if [[ "${PR_LABELS}" =~ "\"${label}\"" ]] ; then
+                remove_labels+=("${label}")
+              else
+                echo "Label ${label} not present"
+              fi
+            fi
+          done
+          # If scope is dependency-related, add 'dependencies' label
+          regexp2='^[a-zA-Z0-9]+\([a-zA-Z0-9\-]*deps\)$'
+          if [[ "${scoped_type}" =~ ${regexp2} ]] ; then
+            echo "Label to add: dependencies"
+            # shellcheck disable=SC2076
+            if [[ "${PR_LABELS}" =~ "\"dependencies\"" ]] ; then
+              echo "Label dependencies already present"
+            else
+              add_labels+=('dependencies')
+            fi
+            # otherwise do not remove it since we are not the only ones to manage this label (e.g. dependabot)
+          fi
+          # For certain types/scopes, add 'no-release-notes' label
+          if [[ "${type}" == 'chore' \
+                || "${type}" == 'ci' \
+                || "${type}" == 'docs' \
+                || "${type}" == 'style' \
+                || "${type}" == 'test' ]] ; then
+            echo "Label to add: no-release-notes"
+            # shellcheck disable=SC2076
+            if [[ "${PR_LABELS}" =~ "\"no-release-notes\"" ]] ; then
+              echo "Label no-release-notes already present"
+            else
+              add_labels+=('no-release-notes')
+            fi
+          else
+            echo "Label to remove: no-release-notes"
+            # shellcheck disable=SC2076
+            if [[ "${PR_LABELS}" =~ "\"no-release-notes\"" ]] ; then
+              remove_labels+=('no-release-notes')
+            else
+              echo "Label no-release-notes not present"
+            fi
+          fi
+          # Update the labels
+          function join_by { local IFS="$1"; shift; echo "$*"; }
+          if [ ${#add_labels[@]} -eq 0 ] && [ ${#remove_labels[@]} -eq 0 ]; then
+            echo 'No label to change'
+          elif [ ${#add_labels[@]} -eq 0 ]; then
+            echo "Removing labels: $(join_by , "${remove_labels[@]}")"
+            gh pr edit "${PR_URL}" --remove-label "$(join_by , "${remove_labels[@]}")"
+          elif [ ${#remove_labels[@]} -eq 0 ]; then
+            echo "Adding labels: $(join_by , "${add_labels[@]}")"
+            gh pr edit "${PR_URL}" --add-label "$(join_by , "${add_labels[@]}")"
+          else
+            echo "Adding labels: $(join_by , "${add_labels[@]}")"
+            echo "Removing labels: $(join_by , "${remove_labels[@]}")"
+            gh pr edit "${PR_URL}" --add-label "$(join_by , "${add_labels[@]}")" --remove-label "$(join_by , "${remove_labels[@]}")"
+          fi
+        env:
+          PR_TITLE: ${{github.event.pull_request.title}}
+          PR_LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
