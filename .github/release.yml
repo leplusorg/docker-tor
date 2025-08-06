@@ -1,0 +1,17 @@
+changelog:
+  exclude:
+    labels:
+      - no-release-notes
+  categories:
+    - title: "New Features :sparkles:"
+      labels:
+        - feat
+    - title: "Bug Fixes :bug:"
+      labels:
+        - fix
+    - title: "Dependency Upgrades :package:"
+      labels:
+        - dependencies
+    - title: "Other Changes :broom:"
+      labels:
+        - "*"

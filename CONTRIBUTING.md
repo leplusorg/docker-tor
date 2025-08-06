@@ -19,14 +19,14 @@ request. We then kindly ask that:
 - all code changes must be tested manually and automated tests should
   be included when possible.
 - all necessary documentation should be included as well.
-- commit messages must follow the [conventional commits specification](https://www.conventionalcommits.org).
+- the first commit's message on a pull request must follow the
+  [conventional commits specification](https://www.conventionalcommits.org).
   See commit history for examples.
-- commits on a single pull request must be squashed together to keep
-  make reviews easier.
-- commits must be signed (this is supported by most Git clients as
+- all commits must be signed (this is supported by most Git clients as
   well as the GitHub web UI, see link below).
 
 ## Resources
 
 - [Managing commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification)
 - [Using Pull Requests](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+- [Commit Message Format](https://github.com/angular/angular/blob/main/contributing-docs/commit-message-guidelines.md)
