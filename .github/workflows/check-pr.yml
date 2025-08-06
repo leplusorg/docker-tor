@@ -17,8 +17,8 @@ jobs:
           echo -n 'Commits: '
           echo "${commits_json}" | jq '.'
           commit_count="$(echo "${commits_json}" | jq -r 'length')"
-          # Check single commit
-          if [ "${commit_count}" -eq 1 ] ; then
+          # Check first commit message (except for dependabot who is inconsistent)
+          if [ "${commit_count}" -eq 1 ] && [ "${GITHUB_ACTOR}" != 'dependabot[bot]' ] ; then
             commit_title="$(echo "${commits_json}" | jq -r '.[0].commit.message' | head -n 1)"
             echo "Commit title: ${commit_title}"
             if [[ "${commit_title}" != "${PR_TITLE}" ]] ; then
