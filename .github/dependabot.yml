@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: "daily"
     commit-message:
-      prefix: chore(dev-deps)
+      prefix: chore(deps)
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
