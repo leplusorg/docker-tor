@@ -14,6 +14,7 @@ if [ -f /.dockerenv ]; then
 	u=$(\apk -u list | \tr '\n' '|')
 
 	\sed -e :a -e '/\\$/N; s/\\\n//; ta' Dockerfile | \grep -o -e 'apk[^\&\;]*add[^\&\;]*' | \grep -o -e '[^ ]*=[^ ]*' | while IFS= \read -r l; do
+		\rm -f .bump.csv.bak
 		p="${l%=*}"
 		v1="${l#*=}"
 		v="$(\echo "|${u}" | \grep -o -e "\|${p}-[^\|]*upgradable from: ${p}-${v1}" || true)"
@@ -24,12 +25,14 @@ if [ -f /.dockerenv ]; then
 		v2="$(\echo "${v}" | \cut -d ' ' -f 1 | \cut -c ${n}-)"
 		if [ -n "${v2}" ] && [ "${v2}" != "${v1}" ]; then
 			\echo "${p} ${v1} -> ${v2}"
-			\perl -i -p -e "s|\Q${l}\E|${p}=${v2}|g" Dockerfile
+			\echo "${p},${v1},${v2},${p}=${v1},${p}=${v2}" >>.bump.csv.bak
 		fi
 	done
 
 else
 
 	\docker run --pull always --rm -t --user root -v "$(pwd):/opt/bump" "leplusorg/${PWD##*/}:main" /opt/bump/"$(\basename "${0}")"
+
+	./create-prs.sh
 
 fi
