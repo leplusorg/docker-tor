@@ -33,6 +33,6 @@ else
 
 	\docker run --pull always --rm -t --user root -v "$(pwd):/opt/bump" "leplusorg/${PWD##*/}:main" /opt/bump/"$(\basename "${0}")"
 
-	./create-prs.sh
+	./create-bump-prs.sh
 
 fi
