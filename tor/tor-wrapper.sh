@@ -26,30 +26,30 @@ fi
 
 if [ -f '/etc/torrc' ]; then
 	if [ "${DEBUG}" = true ]; then
-		\echo 'DEBUG: Found existing /etc/torrc, overwritting /etc/tor/torrc.'
+		echo 'DEBUG: Found existing /etc/torrc, overwritting /etc/tor/torrc.'
 	fi
 	\cp -f '/etc/torrc' '/etc/tor/torrc'
-	\echo 'WARN: Found configuration file at deprecated location /etc/torrc. Please use /etc/tor/torrc instead or it will stop working in future releases of this image.'
+	echo 'WARN: Found configuration file at deprecated location /etc/torrc. Please use /etc/tor/torrc instead or it will stop working in future releases of this image.'
 fi
 if [ "${SKIP_TEMPLATE}" = true ]; then
 	if [ "${DEBUG}" = true ]; then
-		\echo "DEBUG: Skipping templating since SKIP_TEMPLATE is set."
+		echo "DEBUG: Skipping templating since SKIP_TEMPLATE is set."
 	fi
-	\echo "Skipping templating."
+	echo "Skipping templating."
 else
 	if [ "${DEBUG}" = true ]; then
-		\echo "DEBUG: Using template since SKIP_TEMPLATE is not set."
+		echo "DEBUG: Using template since SKIP_TEMPLATE is not set."
 	fi
 	if [ -f '/etc/tor/torrc' ]; then
-		\echo "WARN: /etc/tor/torrc will be overwritten using template /etc/tor/torrc.template (set SKIP_TEMPLATE=true to disable this)."
+		echo "WARN: /etc/tor/torrc will be overwritten using template /etc/tor/torrc.template (set SKIP_TEMPLATE=true to disable this)."
 	fi
 	if [ -n "${SHELL_FORMAT+x}" ]; then
 		if [ "${DEBUG}" = true ]; then
-			\echo "DEBUG: Found custom Shell Format for envsubst: ${SHELL_FORMAT}"
+			echo "DEBUG: Found custom Shell Format for envsubst: ${SHELL_FORMAT}"
 		fi
 	elif [ -n "${SHELL_FORMAT_EXTRA+x}" ]; then
 		if [ "${DEBUG}" = true ]; then
-			\echo "DEBUG: Found extra Shell Format for envsubst: ${SHELL_FORMAT_EXTRA}"
+			echo "DEBUG: Found extra Shell Format for envsubst: ${SHELL_FORMAT_EXTRA}"
 		fi
 		# Escaping predefined variables names except
 		# SHELL_FORMAT_EXTRA, as we don't want them to be
@@ -71,15 +71,15 @@ else
 fi
 
 if [ "${DEBUG}" = true ]; then
-	\echo 'DEBUG: Content of /etc/tor/torrc:'
-	\echo 'DEBUG: =========================='
+	echo 'DEBUG: Content of /etc/tor/torrc:'
+	echo 'DEBUG: =========================='
 	\sed -e 's/^/DEBUG: /' /etc/tor/torrc
-	\echo 'DEBUG: =========================='
+	echo 'DEBUG: =========================='
 fi
 
 if [ "${SET_PERMISSIONS}" = true ]; then
 	if [ "${DEBUG}" = true ]; then
-		\echo "DEBUG: Adjusting permissions on ${DATA_DIRECTORY:-/var/lib/tor}."
+		echo "DEBUG: Adjusting permissions on ${DATA_DIRECTORY:-/var/lib/tor}."
 	fi
 	# As per https://gitlab.torproject.org/tpo/core/tor/-/blob/main/src/lib/fs/dir.c
 	\chown "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
