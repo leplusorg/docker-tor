@@ -12,8 +12,7 @@ RUN apk -U upgrade \
     gettext=0.24.1-r0 \
     git=2.49.1-r0 \
     tor=0.4.8.17-r0 \
-    && if apk -u list | grep -q -e . ; then \
-      apk -u list ; \
+    && if apk -u list | tee -a /dev/stderr | grep -q -e . ; then \
       exit 1 ; \
     fi \
     && apk cache clean \
