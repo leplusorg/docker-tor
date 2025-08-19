@@ -13,8 +13,8 @@ if [ -f /.dockerenv ]; then
 
 	u=$(\apk -u list | \tr '\n' '|')
 
+	\rm -f .bump.csv.bak
 	\sed -e :a -e '/\\$/N; s/\\\n//; ta' Dockerfile | \grep -o -e 'apk[^\&\;]*add[^\&\;]*' | \grep -o -e '[^ ]*=[^ ]*' | while IFS= read -r l; do
-		\rm -f .bump.csv.bak
 		p="${l%=*}"
 		v1="${l#*=}"
 		v="$(echo "|${u}" | \grep -o -e "\|${p}-[^\|]*upgradable from: ${p}-${v1}" || true)"
