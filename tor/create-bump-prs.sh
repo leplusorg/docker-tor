@@ -19,10 +19,11 @@ if [ -f .bump.csv.bak ]; then
 		\git add Dockerfile
 		\git commit -S -m "build(deps): bump ${p} from ${v1} to ${v2}"
 		echo -n "Please review and push commit in branch \"${b}\". Waiting..."
-		while [ "$(git rev-list --count --right-only 'origin...HEAD')" -gt 0 ]; do
+		while ! git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1 ; do
 			\sleep 1
 			\echo -n .
 		done
+		\sleep 1
 		\echo
 		\gh pr create -f -l build -l dependencies
 		\git checkout -
