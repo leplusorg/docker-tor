@@ -1,0 +1,22 @@
+name: APK Check Versions
+
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the versions
+        shell: bash
+        run: |
+          docker run --pull always -t --user root "leplusorg/${GITHUB_REPOSITORY#*/docker-}:main" sh -c '
+            apk update
+            if apk -u list | tee -a /dev/stderr | grep -q -e . ; then
+              exit 1
+            fi
+          '
