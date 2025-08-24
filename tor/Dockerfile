@@ -27,6 +27,6 @@ WORKDIR "/var/lib/tor"
 
 EXPOSE 9050
 
-CMD []
-
 ENTRYPOINT ["/etc/tor/tor-wrapper.sh"]
+
+CMD []
