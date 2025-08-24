@@ -65,9 +65,8 @@ jobs:
         run: |
           set -euo pipefail
           IFS=$'\n\t'
-          images=""
+          images=()
           for tag in ${TAGS}; do
-            images+="${tag}@${DIGEST} "
+            images+=("${tag}@${DIGEST}")
           done
-          # shellcheck disable=SC2086
-          cosign sign --recursive --yes ${images}
+          cosign sign --recursive --yes "${images[@]}"
