@@ -12,6 +12,8 @@ jobs:
       - name: Check commits
         shell: bash
         run: |
+          set -euo pipefail
+          IFS=$'\n\t'
           # Check the commits
           commits_json=$(curl -fsSL -H "Authorization: token ${GITHUB_TOKEN}" "${PR_COMMITS_URL}")
           echo -n 'Commits: '
@@ -40,6 +42,8 @@ jobs:
       - name: Update PR labels
         shell: bash
         run: |
+          set -euo pipefail
+          IFS=$'\n\t'
           # Check PR title is a conventional commit message
           regexp='^((build|chore|ci|docs|feat|fix|perf|refactor|style|test)(\([a-zA-Z0-9\-]+\))?)!?: .*$'
           if ! [[ "${PR_TITLE}" =~ ${regexp} ]] ; then

@@ -14,4 +14,7 @@ jobs:
     steps:
       - name: Check the versions
         shell: bash
-        run: docker run --pull always -t --user root --entrypoint /bin/sh "leplusorg/${GITHUB_REPOSITORY#*/docker-}:main" -c 'apk update && apk -u list | tee -a /dev/stderr | grep -q -e . && exit 1'
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'
+          docker run --pull always -t --user root --entrypoint /bin/sh "leplusorg/${GITHUB_REPOSITORY#*/docker-}:main" -c 'if apk update && apk -u list | tee -a /dev/stderr | grep -q -e .; then exit 1; fi'

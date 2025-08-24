@@ -16,10 +16,16 @@ jobs:
     steps:
       - name: Set IMAGE
         shell: bash
-        run: echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'	
+          echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Set SOURCE_DATE_EPOCH
-        run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "${GITHUB_ENV}"
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'	
+          echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "${GITHUB_ENV}"
       - uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
       - uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
       - uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
@@ -57,6 +63,8 @@ jobs:
           TAGS: ${{ steps.meta.outputs.tags }}
         shell: bash
         run: |
+          set -euo pipefail
+          IFS=$'\n\t'
           images=""
           for tag in ${TAGS}; do
             images+="${tag}@${DIGEST} "

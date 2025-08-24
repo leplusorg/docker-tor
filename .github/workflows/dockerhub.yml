@@ -20,17 +20,28 @@ jobs:
     steps:
       - name: Set IMAGE
         shell: bash
-        run: echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'	
+          echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Pull the ${{ matrix.tag }} ${{ matrix.platform }} image
         shell: bash
-        run: docker pull --platform "${{ matrix.platform }}" "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}"
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'
+          docker pull --platform "${{ matrix.platform }}" "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}"
       - name: Pull the ${{ matrix.tag }} ${{ matrix.platform }} image SBOM
         shell: bash
-        run: docker buildx imagetools inspect "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --format "{{ json (index .SBOM \"${{ matrix.platform }}\").SPDX }}"
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'
+          docker buildx imagetools inspect "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --format "{{ json (index .SBOM \"${{ matrix.platform }}\").SPDX }}"
       - name: Install cosign
         uses: sigstore/cosign-installer@d58896d6a1865668819e1d91763c7751a165e159 # v3.9.2
       - name: Verify the ${{ matrix.tag }} image signature
         shell: bash
         run: |
+          set -euo pipefail
+          IFS=$'\n\t'
           cosign verify "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --certificate-identity-regexp "https://github\.com/${GITHUB_REPOSITORY}/\.github/workflows/.+" --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'
