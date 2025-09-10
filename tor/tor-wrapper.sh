@@ -58,7 +58,7 @@ else
 	else
 		# Using single quotes here on purpose, we don't want the
 		# variables names to be expanded.
-		# shellcheck disable=SC2016
+		# shellcheck disable=SC2016 # [Expressions don't expand in single quotes]: on purpose
 		SHELL_FORMAT='${DATA_DIRECTORY},${LOG_LEVEL},${LOG_FILE},${SOCKS_HOSTNAME},${SOCKS_PORT},${TORRC_APPEND}'
 	fi
 	DATA_DIRECTORY="${DATA_DIRECTORY:-/var/lib/tor}" \

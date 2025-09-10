@@ -58,16 +58,14 @@ jobs:
           for label in build chore ci docs feat fix perf refactor test style ; do
             if [[ "${label}" == "${type}" ]]; then
               echo "Label to add: ${label}"
-              # shellcheck disable=SC2076
-              if [[ "${PR_LABELS}" =~ "\"${label}\"" ]] ; then
+              if [[ "${PR_LABELS}" == *"${label}"* ]] ; then
                 echo "Label ${label} already present"
               else
                 add_labels+=("${label}")
               fi
             else
               echo "Label to remove: ${label}"
-              # shellcheck disable=SC2076
-              if [[ "${PR_LABELS}" =~ "\"${label}\"" ]] ; then
+              if [[ "${PR_LABELS}" == *"${label}"* ]] ; then
                 remove_labels+=("${label}")
               else
                 echo "Label ${label} not present"
@@ -78,8 +76,7 @@ jobs:
           regexp2='^[a-zA-Z0-9]+\([a-zA-Z0-9\-]*deps\)$'
           if [[ "${scoped_type}" =~ ${regexp2} ]] ; then
             echo "Label to add: dependencies"
-            # shellcheck disable=SC2076
-            if [[ "${PR_LABELS}" =~ "\"dependencies\"" ]] ; then
+            if [[ "${PR_LABELS}" == *"dependencies"* ]] ; then
               echo "Label dependencies already present"
             else
               add_labels+=('dependencies')
@@ -93,16 +90,14 @@ jobs:
                 || "${type}" == 'style' \
                 || "${type}" == 'test' ]] ; then
             echo "Label to add: no-release-notes"
-            # shellcheck disable=SC2076
-            if [[ "${PR_LABELS}" =~ "\"no-release-notes\"" ]] ; then
+            if [[ "${PR_LABELS}" == *"no-release-notes"* ]] ; then
               echo "Label no-release-notes already present"
             else
               add_labels+=('no-release-notes')
             fi
           else
             echo "Label to remove: no-release-notes"
-            # shellcheck disable=SC2076
-            if [[ "${PR_LABELS}" =~ "\"no-release-notes\"" ]] ; then
+            if [[ "${PR_LABELS}" == *"no-release-notes"* ]] ; then
               remove_labels+=('no-release-notes')
             else
               echo "Label no-release-notes not present"
