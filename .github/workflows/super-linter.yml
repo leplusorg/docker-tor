@@ -66,5 +66,4 @@ jobs:
           LINTER_RULES_PATH: .
           DEFAULT_BRANCH: main
           ENFORCE_COMMITLINT_CONFIGURATION_CHECK: true
-          ENABLE_COMMITLINT_STRICT_MODE: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

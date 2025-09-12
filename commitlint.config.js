@@ -8,9 +8,11 @@ const Configuration = {
    * Any rules defined here will override rules from parent.
    */
   rules: {
-    "header-max-length": [1, "always", 100],
-    "body-max-line-length": [1, "always", 100],
-    "footer-max-length": [1, "always", 100],
+    "body-leading-blank": [2, "always"], // warning -> error
+    "body-max-line-length": [1, "always", 100], // error -> warning
+    "footer-leading-blank": [2, "always"], // warning -> error
+    "footer-max-length": [1, "always", 100], // error -> warning
+    "header-max-length": [1, "always", 100], // error -> warning
   },
 };
 
