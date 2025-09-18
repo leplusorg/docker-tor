@@ -10,7 +10,7 @@ on:
 permissions: {}
 
 jobs:
-  pull:
+  dockerhub:
     if: startsWith(github.ref, 'refs/heads/')
     runs-on: ubuntu-latest
     strategy:

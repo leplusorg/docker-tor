@@ -6,7 +6,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  check:
+  check-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Check commits
