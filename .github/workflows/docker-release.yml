@@ -2,7 +2,7 @@
 name: Docker Release
 
 on:
-  docker-release:
+  release:
     types: [published]
 
 permissions:
