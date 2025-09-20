@@ -73,3 +73,12 @@ jobs:
             images+=("${tag}@${DIGEST}")
           done
           cosign sign --recursive --yes "${images[@]}"
+      - name: Manually generate release note
+        shell: bash
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'
+          echo "This failure is expected. It is a reminder to update the release notes for this newly created release."
+          echo "To do so, go to ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/latest and click on the edit button."
+          echo "Then click on the 'Generate release notes' button and finally the 'Update release' button. Cheers!"
+          exit 1
