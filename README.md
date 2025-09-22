@@ -147,11 +147,11 @@ Replace `linux/amd64` by the desired platform (`linux/amd64`, `linux/arm64` etc.
 
 [Sigstore](https://docs.sigstore.dev) is trying to improve supply
 chain security by allowing you to verify the origin of an
-artifcat. You can verify that the jar that you use was actually
+artifcat. You can verify that the image that you use was actually
 produced by this repository. This means that if you verify the
-signature of the ristretto jar, you can trust the integrity of the
+signature of the Docker image, you can trust the integrity of the
 whole supply chain from code source, to CI/CD build, to distribution
-on Maven Central or whever you got the jar from.
+on Maven Central or whever you got the image from.
 
 You can use the following command to verify the latest image using its
 sigstore signature attestation:
