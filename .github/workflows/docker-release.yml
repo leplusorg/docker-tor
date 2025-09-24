@@ -5,13 +5,16 @@ on:
   release:
     types: [published]
 
-permissions:
-  # Required by sigstore
-  id-token: write
+permissions: {}
 
 jobs:
   docker-release:
     if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      # Required to checkout the code
+      contents: read
+      # Required to sign the Docker image
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Set IMAGE

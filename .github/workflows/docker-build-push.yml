@@ -8,13 +8,16 @@ on:
     - cron: "0 0 * * 0"
   workflow_dispatch:
 
-permissions:
-  # Required by sigstore
-  id-token: write
+permissions: {}
 
 jobs:
   docker-build-push:
     if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
+    permissions:
+      # Required to create a release
+      contents: write
+      # Required to sign the Docker image
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Set IMAGE
