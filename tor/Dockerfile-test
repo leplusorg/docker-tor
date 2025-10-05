@@ -11,7 +11,7 @@ ARG USER_GECOS=Default
 
 SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 
-# hadolint ignore=DL3018 [Pin versions in apk add]: not required for testing
+# hadolint ignore=DL3018 # [Pin versions in apk add]: not required for testing
 RUN apk add --no-cache curl
 
 RUN adduser \
