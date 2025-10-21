@@ -40,7 +40,7 @@ jobs:
           IFS=$'\n\t'
           docker buildx imagetools inspect "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --format "{{ json (index .SBOM \"${{ matrix.platform }}\").SPDX }}"
       - name: Install cosign
-        uses: sigstore/cosign-installer@d7543c93d881b35a8faa02e8e3605f69b7a1ce62 # v3.10.0
+        uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
       - name: Verify the ${{ matrix.tag }} image signature
         shell: bash
         run: |
