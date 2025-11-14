@@ -19,11 +19,11 @@ jobs:
           # Check the commits
           commits_json=$(curl -fsSL -H "Authorization: token ${GITHUB_TOKEN}" "${PR_COMMITS_URL}")
           echo -n 'Commits: '
-          echo "${commits_json}" | jq '.'
-          commit_count="$(echo "${commits_json}" | jq -r 'length')"
+          jq '.' <<<"${commits_json}"
+          commit_count="$(jq -r 'length' <<<"${commits_json}")"
           # Check first commit message (except for dependabot who is inconsistent)
           if [ "${commit_count}" -eq 1 ] && [ "${GITHUB_ACTOR}" != 'dependabot[bot]' ] ; then
-            commit_title="$(echo "${commits_json}" | jq -r '.[0].commit.message' | head -n 1)"
+            commit_title="$(jq -r '.[0].commit.message' <<<"${commits_json}" | head -n 1)"
             echo "Commit title: ${commit_title}"
             if [[ "${commit_title}" != "${PR_TITLE}" ]] ; then
               >&2 echo 'Single commit must have same title as PR.'
@@ -32,8 +32,8 @@ jobs:
           fi
           # Check that all commits are signed
           for ((i = 0 ; i < commit_count ; i++ )); do
-            if [[ "$(echo "${commits_json}" | jq -r ".[${i}].commit.verification.verified")" == 'false' ]] ; then
-              >&2 echo "Commit $(echo "${commits_json}" | jq -r ".[${i}].sha") must be signed."
+            if [[ "$(jq -r ".[${i}].commit.verification.verified" <<<"${commits_json}")" == 'false' ]] ; then
+              >&2 echo "Commit $(jq -r ".[${i}].sha" <<<"${commits_json}") must be signed."
               exit 1
             fi
           done
