@@ -58,6 +58,7 @@ jobs:
           pull: true
           push: true
           sbom: true
+          provenance: mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       - name: Install cosign

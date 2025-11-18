@@ -66,6 +66,7 @@ jobs:
           pull: true
           push: ${{ github.ref == 'refs/heads/main' }}
           sbom: true
+          provenance: mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       - name: Install cosign
