@@ -10,6 +10,9 @@ on:
 
 permissions: {}
 
+env:
+  DOCKER_BUILDKIT: 1
+
 jobs:
   docker-build-push:
     if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
@@ -71,6 +74,8 @@ jobs:
           provenance: mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Sign the Docker image
         if: github.ref == 'refs/heads/main'
         working-directory: ${{ env.IMAGE }}
