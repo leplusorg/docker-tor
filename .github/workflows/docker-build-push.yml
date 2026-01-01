@@ -128,6 +128,7 @@ jobs:
           result-encoding: string
       - name: Trigger Release
         if: env.VERSION != '' && steps.check-release.outputs.result == 'undefined'
+        # zizmor: ignore[archived-uses] only official release action
         uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
