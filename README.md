@@ -156,11 +156,11 @@ docker buildx imagetools inspect leplusorg/tor --format '{{ json .Provenance }}'
 
 [Sigstore](https://docs.sigstore.dev) is trying to improve supply
 chain security by allowing you to verify the origin of an
-artifcat. You can verify that the image that you use was actually
+artifact. You can verify that the image that you use was actually
 produced by this repository. This means that if you verify the
 signature of the Docker image, you can trust the integrity of the
 whole supply chain from code source, to CI/CD build, to distribution
-on Maven Central or whever you got the image from.
+on Maven Central or wherever you got the image from.
 
 You can use the following command to verify the latest image using its
 sigstore signature attestation:
