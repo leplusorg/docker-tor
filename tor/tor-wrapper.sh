@@ -26,7 +26,7 @@ fi
 
 if [ -f '/etc/torrc' ]; then
 	if [ "${DEBUG}" = true ]; then
-		echo 'DEBUG: Found existing /etc/torrc, overwritting /etc/tor/torrc.'
+		echo 'DEBUG: Found existing /etc/torrc, overwriting /etc/tor/torrc.'
 	fi
 	\cp -f '/etc/torrc' '/etc/tor/torrc'
 	echo 'WARN: Found configuration file at deprecated location /etc/torrc. Please use /etc/tor/torrc instead or it will stop working in future releases of this image.'
