@@ -15,3 +15,9 @@ rules:
         - ossf/*
         - sigstore/*
         - super-linter/super-linter
+  secrets-outside-env:
+    config:
+      allow:
+        - DOCKERHUB_TOKEN
+        - DOCKERHUB_USERNAME
+        - RELEASE_TOKEN
