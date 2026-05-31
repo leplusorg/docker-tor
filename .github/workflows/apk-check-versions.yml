@@ -10,11 +10,42 @@ permissions: {}
 
 jobs:
   apk-check-versions:
+    permissions:
+      # Required to clone repo
+      contents: read
     runs-on: ubuntu-latest
     steps:
+      - name: Set IMAGE
+        shell: bash
+        run: |
+          set -euo pipefail
+          IFS=$'\n\t'	
+          echo "IMAGE=${GITHUB_REPOSITORY#*/docker-}" >> "${GITHUB_ENV}"
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+          persist-credentials: false
       - name: Check the versions
         shell: bash
         run: |
           set -euo pipefail
           IFS=$'\n\t'
-          docker run --pull always -t --user root --entrypoint /bin/sh "leplusorg/${GITHUB_REPOSITORY#*/docker-}:main" -c 'if apk update && apk -u list | tee -a /dev/stderr | grep -q -e .; then exit 1; fi'
+          PINNED=$(awk -F= '/^[[:space:]]+[a-z0-9][a-z0-9._+-]*=[0-9]/ { gsub(/[[:space:]]/, "", $1); print $1 }' "${IMAGE}/Dockerfile")
+          if [ -z "${PINNED}" ]; then
+            echo "No pinned packages found in ${IMAGE}/Dockerfile" >&2
+            exit 1
+          fi
+          echo "Pinned packages:"
+          echo "${PINNED}"
+          UPGRADABLE=$(docker run --pull always --rm --user root --entrypoint /bin/sh "leplusorg/${IMAGE}:main" -c 'apk update >/dev/null 2>&1 && apk -u list 2>/dev/null')
+          OUTDATED=""
+          for pkg in ${PINNED}; do
+            if printf '%s\n' "${UPGRADABLE}" | grep -qE "^${pkg}-[0-9]"; then
+              OUTDATED="${OUTDATED} ${pkg}"
+            fi
+          done
+          if [ -n "${OUTDATED}" ]; then
+            echo "The following pinned packages are outdated:${OUTDATED}" >&2
+            exit 1
+          fi
+          echo "All pinned packages are up to date"
