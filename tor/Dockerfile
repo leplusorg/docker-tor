@@ -10,7 +10,7 @@ RUN apk upgrade --no-cache \
     curl=8.19.0-r0 \
     gettext=0.24.1-r1 \
     git=2.52.0-r0 \
-    tor=0.4.9.8-r0 \
+    tor=0.4.9.9-r0 \
     && apk cache --no-cache clean \
     && rm -rf /var/cache/apk/*
 
