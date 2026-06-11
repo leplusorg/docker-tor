@@ -6,10 +6,10 @@ HEALTHCHECK CMD ["/usr/bin/curl", "-fsSL", "--socks5", "localhost:9050", "--sock
 
 RUN apk upgrade --no-cache \
     && apk add --no-cache \
-    bash=5.3.3-r1 \
-    curl=8.19.0-r0 \
-    gettext=0.24.1-r1 \
-    git=2.52.0-r0 \
+    bash=5.3.9-r1 \
+    curl=8.20.0-r1 \
+    gettext=1.0-r0 \
+    git=2.54.0-r0 \
     tor=0.4.9.9-r0 \
     && apk cache --no-cache clean \
     && rm -rf /var/cache/apk/*
