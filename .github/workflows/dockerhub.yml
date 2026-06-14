@@ -30,21 +30,29 @@ jobs:
           persist-credentials: false
       - name: Pull the ${{ matrix.tag }} ${{ matrix.platform }} image
         shell: bash
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          TAG: ${{ matrix.tag }}
         run: |
           set -euo pipefail
           IFS=$'\n\t'
-          docker pull --platform "${{ matrix.platform }}" "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}"
+          docker pull --platform "${PLATFORM}" "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${TAG}"
       - name: Pull the ${{ matrix.tag }} ${{ matrix.platform }} image SBOM
         shell: bash
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          TAG: ${{ matrix.tag }}
         run: |
           set -euo pipefail
           IFS=$'\n\t'
-          docker buildx imagetools inspect "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --format "{{ json (index .SBOM \"${{ matrix.platform }}\").SPDX }}"
+          docker buildx imagetools inspect "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${TAG}" --format "{{ json (index .SBOM \"${PLATFORM}\").SPDX }}"
       - name: Install cosign
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       - name: Verify the ${{ matrix.tag }} image signature
         shell: bash
+        env:
+          TAG: ${{ matrix.tag }}
         run: |
           set -euo pipefail
           IFS=$'\n\t'
-          cosign verify "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${{ matrix.tag }}" --certificate-identity-regexp "https://github\.com/${GITHUB_REPOSITORY}/\.github/workflows/.+" --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'
+          cosign verify "${GITHUB_REPOSITORY_OWNER}/${IMAGE}:${TAG}" --certificate-identity-regexp "https://github\.com/${GITHUB_REPOSITORY}/\.github/workflows/.+" --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'
