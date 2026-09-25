@@ -58,7 +58,7 @@ jobs:
         id: build
         with:
           # zizmor: ignore[template-injection] no user input
-          context: ${{ env.IMAGE }}
+          context: "{{defaultContext}}:${{ env.IMAGE }}"
           platforms: linux/amd64,linux/arm64
           pull: true
           push: true
