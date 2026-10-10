@@ -28,7 +28,7 @@ if [ -f '/etc/torrc' ]; then
 	if [ "${DEBUG}" = true ]; then
 		echo 'DEBUG: Found existing /etc/torrc, overwriting /etc/tor/torrc.'
 	fi
-	\cp -f '/etc/torrc' '/etc/tor/torrc'
+	cp -f '/etc/torrc' '/etc/tor/torrc'
 	echo 'WARN: Found configuration file at deprecated location /etc/torrc. Please use /etc/tor/torrc instead or it will stop working in future releases of this image.'
 fi
 if [ "${SKIP_TEMPLATE}" = true ]; then
@@ -73,7 +73,7 @@ fi
 if [ "${DEBUG}" = true ]; then
 	echo 'DEBUG: Content of /etc/tor/torrc:'
 	echo 'DEBUG: =========================='
-	\sed -e 's/^/DEBUG: /' /etc/tor/torrc
+	sed -e 's/^/DEBUG: /' /etc/tor/torrc
 	echo 'DEBUG: =========================='
 fi
 
@@ -82,10 +82,10 @@ if [ "${SET_PERMISSIONS}" = true ]; then
 		echo "DEBUG: Adjusting permissions on ${DATA_DIRECTORY:-/var/lib/tor}."
 	fi
 	# As per https://gitlab.torproject.org/tpo/core/tor/-/blob/main/src/lib/fs/dir.c
-	\chown "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
-	\chmod g-rwx,o-rwx "${DATA_DIRECTORY:-/var/lib/tor}"
+	chown "$(id -u):$(id -g)" "${DATA_DIRECTORY:-/var/lib/tor}"
+	chmod g-rwx,o-rwx "${DATA_DIRECTORY:-/var/lib/tor}"
 fi
 
-cmd=$(\which tor)
+cmd=$(which tor)
 
 exec "${cmd}" -f /etc/tor/torrc "$@"
