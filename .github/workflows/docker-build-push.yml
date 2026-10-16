@@ -144,8 +144,8 @@ jobs:
         run: |
           set -euo pipefail
           IFS=$'\n\t'
-          VERSION="$(\grep "${IMAGE}/Dockerfile" -e '^FROM' | \head -n 1 | \sed -e 's/@.*$//; s/^.*://;')"
-          if [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] ; then
+          VERSION="$(\sed -n -e 's/^[[:space:]]*tor=0\.\([0-9.]*\)-r\([0-9]*\).*$/\1-\2/p' "${IMAGE}/Dockerfile" | \head -n 1)"
+          if [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+-[0-9]+$ ]] ; then
             echo "VERSION=${VERSION}" >> "${GITHUB_ENV}"
           fi
       - name: Check if release already exists

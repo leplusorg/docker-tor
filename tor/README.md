@@ -1,4 +1,4 @@
-# tor image
+# TOR image
 
 Build context for the `leplusorg/tor` container image. See the
 [root readme](../README.md) for what the image does and how to run it.
