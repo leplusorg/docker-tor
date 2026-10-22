@@ -16,7 +16,7 @@ SET_PERMISSIONS="${SET_PERMISSIONS:-true}"
 
 # Honoring GitHub runner debug mode
 if [ -n "${RUNNER_DEBUG+x}" ] && [ "${RUNNER_DEBUG}" = 1 ]; then
-	DEBUG=false
+	DEBUG=true
 fi
 
 if [ "${DEBUG}" = true ]; then
